@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', (req, res, next) => {
     try {
-      mysql.query('SELECT * FROM users', (error, results) => {
+      mysql.query('SELECT * FROM user', (error, results) => {
         res.json(results);
       });
     } catch (error) {
