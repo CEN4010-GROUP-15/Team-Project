@@ -1,6 +1,7 @@
 const express = require('express');
 
 const users = require('./users');
+const books = require('./book');
 
 const router = express.Router();
 
@@ -11,5 +12,6 @@ router.get('/', (req, res) => {
 });
 
 router.use('/users', users);
+router.use('/books', books);
 
 module.exports = router;
