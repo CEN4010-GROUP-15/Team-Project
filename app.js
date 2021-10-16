@@ -32,6 +32,7 @@ app.get('/login',function(req,res) {
 app.get('/profile',function(req,res) {
   res.sendFile(__dirname + '/pages/profile.html');
 });
+
 app.get('/register',function(req,res) {
   res.sendFile(__dirname + '/pages/register.html');
 });
