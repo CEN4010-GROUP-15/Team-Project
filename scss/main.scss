@@ -7,8 +7,9 @@
 
 img{
     display: block;
-    width: 100%;
-    max-width: 100%;
+    width:400px;
+    height:400px;
+    object-fit:scale-down;
 }
 
 .grid{
