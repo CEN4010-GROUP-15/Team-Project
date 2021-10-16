@@ -11,12 +11,14 @@ const api = require('./app/index.js');
 const middlewares = require('./middlewares');
 
 app.use(morgan('dev'));
-app.use(helmet());
 app.use(cors());
 app.use(express.urlencoded({
   extended: true
 }));
 app.use(express.json());
+
+app.use('/scripts', express.static('scripts'))
+app.use('/scss', express.static('scss'))
 
 
 app.get('/',function(req,res) {
