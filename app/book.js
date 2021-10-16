@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
     const { isbn } = req.params;
 
     try {
-      mysql.query(`SELECT name, description, ISBN FROM book where isbn = ${isbn}`, (error, results) => {
+      mysql.query(`SELECT * FROM book where isbn = ${isbn}`, (error, results) => {
         res.json(results[0] ?? {});
       });
     } catch (error) {
