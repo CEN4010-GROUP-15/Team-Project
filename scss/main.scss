@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+img{
+    display: block;
+    width: 100%;
+    max-width: 100%;
+}
+
+.grid{
+    padding: 16px;
+    display: grid;
+    grid-gap: 16px;
+
+    @media (min-width: 768px){     
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 960px){     
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (min-width: 1200px){     
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .col{
+        background-color: white;
+        margin-bottom: 16px;
+        padding: 16px;
+    }
+}
