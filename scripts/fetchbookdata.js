@@ -19,11 +19,14 @@ fetch(url)
     var objTo = document.getElementById("grid");
     console.log(objTo);
     var divtest = document.createElement("div");
-    divtest.innerHTML = `       
+    divtest.className = "col"
+    divtest.innerHTML = `
       <h3>${book.name}</h3>
-      <img src="${book.cover_url}" alt="" />
+      <p>by ${book.author}</p>
       <br/>
-      <p>${book.description}</p>`;
+      <h4>$${book.price}</h4>
+      <img src="${book.cover_url}" alt="${book.name} cover page" />
+      <button class="btnDetails" type="button">Details</button>`;
     objTo.appendChild(divtest);
   })
 })

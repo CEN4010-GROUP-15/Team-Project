@@ -5,11 +5,12 @@
     font-family: 'Fira Sans', sans-serif;
 }
 
-img{
-    display: block;
+img{    
+    display:inline;
     width:400px;
-    height:400px;
-    object-fit:scale-down;
+    height:500px;
+    background-position: center;
+    border-style: double;
 }
 
 .grid{
@@ -30,8 +31,14 @@ img{
     }
 
     .col{
-        background-color: white;
+        border-style: solid;
+        background-color: peachpuff;
         margin-bottom: 16px;
         padding: 16px;
+    
+        .btnDetails{
+           margin-top: 10px;
+        }
+    
     }
 }
