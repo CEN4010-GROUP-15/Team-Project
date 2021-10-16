@@ -8,7 +8,7 @@ function append(parent, el) {
 
 
 const url = 'https://cen4010-group15.herokuapp.com/api/books/';
-console.log();
+
 fetch(url)
 .then((resp) => resp.json())
 .then(function(data) {
