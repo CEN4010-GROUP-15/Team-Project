@@ -18,7 +18,7 @@ router.get('/', (req, res, next) => {
 
     try {
       mysql.query(`SELECT name, description, ISBN FROM book where book_id = ${id}`, (error, results) => {
-        res.json(results);
+        res.json(results[0] ?? {});
       });
     } catch (error) {
       next(error);

@@ -29,6 +29,11 @@ app.get('/login',function(req,res) {
     res.sendFile(__dirname + '/pages/login.html');
   });
 
+app.get('/profile',function(req,res) {
+  res.sendFile(__dirname + '/pages/profile.html');
+});
+
+
 app.use('/api/', api);
 
 app.use(middlewares.notFound);
