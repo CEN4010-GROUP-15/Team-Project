@@ -1,0 +1,54 @@
+<html>
+<head>
+  <title>Express HTML</title>
+  <link rel="stylesheet" href="../scss/main.css"/>  
+</head>
+<body>
+    <div class="topnav">
+        <label class="logo">GeekText</label>   
+        <a  class="active" href="profile.html">Profile</a>
+        <a  href="index.html">Home</a>
+      </div>
+
+  <div>
+    <h1 id="bookName" ></h1>
+
+
+  </div>
+</body>
+</html>
+
+<script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+    return false;
+};
+var ISBN = getUrlParameter('ISBN');
+
+const url = 'https://cen4010-group15.herokuapp.com/api/books/details/'+ISBN;
+
+fetch(url)
+.then((resp) => resp.json())
+.then(function(data) {
+  let book = data;
+    var objTo = document.getElementById("bookName");
+    objTo.innerHTML = `${book.name}`
+
+})
+.catch(function(error) {
+  console.log(error);
+});
+
+
+</script>
