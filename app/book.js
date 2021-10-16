@@ -13,6 +13,20 @@ router.get('/', (req, res, next) => {
     }
   });
 
+  router.get('/sort/:genre', (req, res, next) => {
+    let genre = req.params.genre
+    let year = req.params.year
+
+    console.log(genre);
+    try {
+      mysql.query('SELECT * FROM book', (error, results) => {
+        res.json(results);
+      });
+    } catch (error) {
+      next(error);
+    }
+  });  
+
   router.get('/details/:isbn', (req, res, next) => {
     const { isbn } = req.params;
 
