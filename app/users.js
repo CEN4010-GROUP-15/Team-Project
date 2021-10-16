@@ -13,4 +13,26 @@ router.get('/', (req, res, next) => {
     }
   });
 
+router.post('/login', (req, res, next) => {
+  const email = req.body.email
+  const pass = req.body.pass
+  try {
+    mysql.query(`SELECT user_id, password from user WHERE email = '${email}'`, (error, results) => {
+      if(results[0].password === pass){
+        res.json({
+          result: true,
+          id: results[0].user_id
+        })
+      }else{
+        res.json({
+          result: false,
+        });
+      }
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
