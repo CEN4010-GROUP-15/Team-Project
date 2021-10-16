@@ -12,6 +12,12 @@
 
   <div>
     <h1 id="bookName" ></h1>
+    <div id="bookCover"></div>
+    <h2>About book:</h2>
+    <h3 id="bookAuthor"> </h3>
+    <h3 id="bookYearPublished"></h3>
+    <h3 id="bookGenre"></h3>
+    <h3 id="bookPrice"></h3>
 
 
   </div>
@@ -42,9 +48,23 @@ fetch(url)
 .then((resp) => resp.json())
 .then(function(data) {
   let book = data;
-    var objTo = document.getElementById("bookName");
-    objTo.innerHTML = `${book.name}`
+    var bookNameText = document.getElementById("bookName");
+    bookNameText.innerHTML = `${book.name}`;
 
+    var bookCoverImage = document.getElementById("bookCover");
+    bookCoverImage.innerHTML = `<img src="${book.cover_url}" alt="${book.name} cover page"/>`;
+
+    var bookAuthor = document.getElementById("bookAuthor");
+    bookAuthor.innerHTML = `${book.author}`;
+
+    var yearPublished = document.getElementById("bookYearPublished");
+    yearPublished.innerHTML = `${book.year_published}`;
+
+    var genre = document.getElementById("bookGenre");
+    genre.innerHTML = `${book.genre}`;
+
+    var price = document.getElementById("bookPrice");
+    price.innerHTML = `$${book.price}`;
 })
 .catch(function(error) {
   console.log(error);
