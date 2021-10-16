@@ -22,6 +22,10 @@ app.use(express.json());
 app.get('/',function(req,res) {
     res.sendFile(__dirname + '/pages/index.html');
   });
+  
+app.get('/login',function(req,res) {
+    res.sendFile(__dirname + '/pages/login.html');
+  });
 
 app.use('/api/', api);
 
