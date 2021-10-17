@@ -94,7 +94,7 @@ function init(){
   var searchbar = document.getElementById("searchbar");
   searchbar.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {  
-      filterGenre(searchbar.value)
+      filterGenre(searchbar.value);
     }
   });
   var topButton = document.getElementById("top");

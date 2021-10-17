@@ -1,15 +1,15 @@
-<form action="action_page.php" method="post">
+<form action="/api/users/login" method="post">
     <div class="imgcontainer">
     </div>
   
     <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
+      <label for="email"><b>Email</b></label>
+      <input id="email" type="text" placeholder="Enter Email" name="email" required>
   
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
+      <label for="pass"><b>Password</b></label>
+      <input id="pass" type="password" placeholder="Enter Password" name="pass" required>
   
-      <button type="submit">Login</button>
+      <button id="submit" type="submit">Login</button>
       <label>
         <input type="checkbox" checked="checked" name="remember"> Remember me
       </label>
@@ -22,3 +22,34 @@
         Click Here to Register
     </div>
   </form>
+
+  <!-- <script>
+    window.onload = init;
+
+    function login() {
+      var emailInput = document.getElementById("email");
+      var passInput = document.getElementById("psw");
+
+      var url = "/api/users/login";
+      var data = `{
+        "email": "${emailInput.value}",
+        "pass": "${emailInput.value}",
+      }`;
+
+      var xhr = new XMLHttpRequest();
+      await xhr.open("POST", url, true);
+      //Send the proper header information along with the request
+      xhr.setRequestHeader("Content-type", "application/json");
+
+      xhr.send(data);
+
+      console.log(xhr.response);
+
+    }
+
+    function init(){
+      var submitButton = document.getElementById("submit");
+      submitButton.addEventListener('click', login);
+    }
+
+  </script> -->
