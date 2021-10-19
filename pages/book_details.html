@@ -18,6 +18,7 @@
     <h3 id="bookYearPublished"></h3>
     <h3 id="bookGenre"></h3>
     <h3 id="bookPrice"></h3>
+    <h3 id="bookDescription"></h3>
 
 
   </div>
@@ -65,6 +66,9 @@ fetch(url)
 
     var price = document.getElementById("bookPrice");
     price.innerHTML = `$${book.price}`;
+
+    var description = document.getElementById("bookDescription");
+    description.innerHTML = `${book.description}`;
 })
 .catch(function(error) {
   console.log(error);
