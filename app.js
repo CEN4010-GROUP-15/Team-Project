@@ -37,6 +37,10 @@ app.get('/register',function(req,res) {
   res.sendFile(__dirname + '/pages/register.html');
 });
 
+app.get('/book_details:ISBN',function(req,res) {
+  res.sendFile(__dirname + '/pages/book_details.html');
+});
+
 
 app.use('/api/', api);
 
