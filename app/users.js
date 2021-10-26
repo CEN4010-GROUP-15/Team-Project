@@ -2,7 +2,16 @@ const express = require('express');
 const mysql = require('../db-connection');
 
 const router = express.Router();
-
+router.get('/:username', (req, res, next) => {
+  const username = req.params.username
+  try {
+    mysql.query(`SELECT * FROM user WHERE email = ${username}`, (error, results) => {
+      res.json(results);
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 router.get('/', (req, res, next) => {
     try {
       mysql.query('SELECT * FROM user', (error, results) => {
