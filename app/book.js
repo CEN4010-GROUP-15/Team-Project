@@ -75,4 +75,35 @@ router.get('/', (req, res, next) => {
     }
   });
 
+  router.post('/create', (req, res, next) => {
+    const name = req.body.name
+    const description = req.body.description
+    const price = req.body.price
+    const author = req.body.author
+    const genre = req.body.genre
+    const publisher = req.body.publisher
+    const year_published = req.body.year_published
+    const copies_sold = req.body.copies_sold
+
+    try {
+      mysql.query(`INSERT INTO \`heroku_30466051e354b84\`.\`ISBN\` (\`name\`, \`description\`, \`price\`, \`author\`, \`genre\`, \`publisher\`, \`year_published\`, \`copies_sold\`) VALUES ('${ISBN}', '${name}', '${description}', '${price}', '${author}', '${genre}', '${publisher}', '${year_published}', '${copies_sold}');`, (error, results) => {
+        res.json(results);
+      });
+  
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get('/:ISBN', (req, res, next) => {
+    const ISBN = req.params.ISBN;
+    try {
+      mysql.query(`SELECT * FROM book WHERE ISBN = '${ISBN}'`, (error, results) => {
+        res.json(results);
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+
 module.exports = router;
