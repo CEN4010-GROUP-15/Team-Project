@@ -4,6 +4,7 @@ const mysql = require('../db-connection');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
+
     try {
       mysql.query('SELECT * FROM book', (error, results) => {
         res.json(results);
