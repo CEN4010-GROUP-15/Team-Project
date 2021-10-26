@@ -38,28 +38,64 @@ router.get('/', (req, res, next) => {
     }
   });
 
-  router.put('/update', (req, res, next) => {
-    const email = req.body.email
-    const pass = req.body.pass
-    const name = req.body.name
-    const address = req.body.address
-
+  router.put('/update', async (req, res, next) => {
     try {
-      if(pass){
-        mysql.query(`UPDATE \`heroku_30466051e354b84\`.\`user\` SET \`pass\` = '${pass}' WHERE (\`email\` = '${email}');`, (error, results) => {
+      const email = req.body.email
+      const pass = req.body.pass
+      const name = req.body.name
+      const address = req.body.address
+      var final = []
+      var result1 = null;
+      var result2 = null;
+      var result3 = null;
+
+      queryPromise1 = () =>{
+        return new Promise((resolve, reject)=>{
+          mysql.query(`UPDATE \`heroku_30466051e354b84\`.\`user\` SET \`password\` = '${pass}' WHERE (\`email\` = '${email}');`,  (error, results)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(results);
+            });
         });
+    };
+
+    queryPromise2 = () =>{
+      return new Promise((resolve, reject)=>{
+        mysql.query(`UPDATE \`heroku_30466051e354b84\`.\`user\` SET \`name\` = '${name}' WHERE (\`email\` = '${email}');`,  (error, results)=>{
+              if(error){
+                  return reject(error);
+              }
+              return resolve(results);
+          });
+      });
+  };
+
+  queryPromise3 = () =>{
+    return new Promise((resolve, reject)=>{
+        mysql.query(`UPDATE \`heroku_30466051e354b84\`.\`user\` SET \`home_address\` = '${address}' WHERE (\`email\` = '${email}');`,  (error, results)=>{
+            if(error){
+                return reject(error);
+            }
+            return resolve(results);
+        });
+    });
+};
+       
+      if(pass){
+        result1 = await queryPromise1();
+        final.push(result1)
       }
       if(name){
-      mysql.query(`UPDATE \`heroku_30466051e354b84\`.\`user\` SET \`name\` = '${name}' WHERE (\`email\` = '${email}');`, (error, results) => {
-      });
-      if(address){
-        mysql.query(`UPDATE \`heroku_30466051e354b84\`.\`user\` SET \`address\` = '${address}' WHERE (\`email\` = '${email}');`, (error, results) => {
-      });
-
+        result2 = await queryPromise2();
+        final.push(result2)
       }
-      res.json(results);
-    }
-     
+      if(address){
+        result3 = await queryPromise3();
+        final.push(result3)
+      }
+      res.json(final)
+
     } catch (error) {
       next(error);
     }
