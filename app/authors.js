@@ -3,9 +3,11 @@ const mysql = require('../db-connection');
 
 const router = express.Router();
 
-router.get('/:first_name?:last_name', (req, res, next) => {
-    const first_name = req.params.first_name;
-    const last_name = req.params.last_name;
+router.get('/', (req, res, next) => {
+    const first_name = req.query.first_name;
+    const last_name = req.query.last_name;
+
+    console.log(req.query);
 
     try {
       mysql.query(`SELECT book.name, author.first_name, author.last_name
