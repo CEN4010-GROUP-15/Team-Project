@@ -76,6 +76,7 @@ router.get('/', (req, res, next) => {
   });
 
   router.post('/create', (req, res, next) => {
+    const isbn = req.body.isbn
     const name = req.body.name
     const description = req.body.description
     const price = req.body.price
@@ -86,7 +87,7 @@ router.get('/', (req, res, next) => {
     const copies_sold = req.body.copies_sold
 
     try {
-      mysql.query(`INSERT INTO \`heroku_30466051e354b84\`.\`ISBN\` (\`name\`, \`description\`, \`price\`, \`author\`, \`genre\`, \`publisher\`, \`year_published\`, \`copies_sold\`) VALUES ('${ISBN}', '${name}', '${description}', '${price}', '${author}', '${genre}', '${publisher}', '${year_published}', '${copies_sold}');`, (error, results) => {
+      mysql.query(`INSERT INTO \`heroku_30466051e354b84\`.\`book\` (\`ISBN\`,\`name\`, \`description\`, \`price\`, \`author\`, \`genre\`, \`publisher\`, \`year_published\`, \`copies_sold\`) VALUES ('${isbn}', '${name}', '${description}', '${price}', '${author}', '${genre}', '${publisher}', '${year_published}', '${copies_sold}');`, (error, results) => {
         res.json(results);
       });
   
@@ -99,7 +100,7 @@ router.get('/', (req, res, next) => {
     const ISBN = req.params.ISBN;
     try {
       mysql.query(`SELECT * FROM book WHERE ISBN = '${ISBN}'`, (error, results) => {
-        res.json(results);
+        res.json(results[0]);
       });
     } catch (error) {
       next(error);
