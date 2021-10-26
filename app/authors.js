@@ -20,4 +20,20 @@ router.get('/', (req, res, next) => {
     }
   });
 
+  router.post('/create', (req, res, next) => {
+    const first_name = req.body.first_name
+    const last_name = req.body.last_name
+    const biography = req.body.biography
+    const publisher = req.body.publisher
+
+    try {
+      mysql.query(`INSERT INTO \`heroku_30466051e354b84\`.\`author\` (\`first_name\`, \`last_name\`, \`biography\`, \`publisher\`) VALUES ('${first_name}', '${last_name}', '${biography}', '${publisher}');`, (error, results) => {
+        res.json(results);
+      });
+  
+    } catch (error) {
+      next(error);
+    }
+  });
+
   module.exports = router;
