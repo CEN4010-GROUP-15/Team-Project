@@ -38,6 +38,33 @@ router.get('/', (req, res, next) => {
     }
   });
 
+  router.put('/update', (req, res, next) => {
+    const email = req.body.email
+    const pass = req.body.pass
+    const name = req.body.name
+    const address = req.body.address
+
+    try {
+      if(pass){
+        mysql.query(`UPDATE \`heroku_30466051e354b84\`.\`user\` SET \`pass\` = '${pass}' WHERE (\`email\` = '${email}');`, (error, results) => {
+        });
+      }
+      if(name){
+      mysql.query(`UPDATE \`heroku_30466051e354b84\`.\`user\` SET \`name\` = '${name}' WHERE (\`email\` = '${email}');`, (error, results) => {
+      });
+      if(address){
+        mysql.query(`UPDATE \`heroku_30466051e354b84\`.\`user\` SET \`address\` = '${address}' WHERE (\`email\` = '${email}');`, (error, results) => {
+      });
+
+      }
+      res.json(results);
+    }
+     
+    } catch (error) {
+      next(error);
+    }
+  });
+
 router.post('/login', (req, res, next) => {
   const email = req.body.email
   const pass = req.body.pass
