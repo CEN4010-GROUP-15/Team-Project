@@ -36,6 +36,20 @@ router.get('/', (req, res, next) => {
       next(error);
     }
   }); 
+
+  //Sort by rating
+  router.get('/sort/rating/:rating', (req, res, next) => {
+    let rating = req.params.rating
+    try {
+      mysql.query(`SELECT * FROM book WHERE rating >= ${rating} ORDER BY rating;`, (error, results) => {
+        res.json(results);
+      });
+    } catch (error) {
+      next(error);
+    }
+  });  
+
+
   router.get('/details/:isbn', (req, res, next) => {
     const { isbn } = req.params;
 
