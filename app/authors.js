@@ -1,0 +1,21 @@
+const express = require('express');
+const mysql = require('../db-connection');
+
+const router = express.Router();
+
+router.get('/:first_name?:last_name', (req, res, next) => {
+    const first_name = req.params.first_name;
+    const last_name = req.params.last_name;
+
+    try {
+      mysql.query(`SELECT book.name, author.first_name, author.last_name
+      FROM book
+      INNER JOIN author ON book.author_id = (SELECT author_id FROM author WHERE first_name = '${first_name}' AND last_name = '${last_name}');`, (error, results) => {
+        res.json(results);
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  module.exports = router;
