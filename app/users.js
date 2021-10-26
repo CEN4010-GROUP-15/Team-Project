@@ -22,6 +22,22 @@ router.get('/', (req, res, next) => {
     }
   });
 
+  router.post('/create', (req, res, next) => {
+    const email = req.body.email
+    const pass = req.body.pass
+    const name = req.body.name
+    const address = req.body.address
+
+    try {
+      mysql.query(`INSERT INTO \`heroku_30466051e354b84\`.\`user\` (\`email\`, \`password\`, \`name\`, \`home_address\`) VALUES ('${email}', '${pass}', '${name}', '${address}');`, (error, results) => {
+        res.json(results);
+      });
+  
+    } catch (error) {
+      next(error);
+    }
+  });
+
 router.post('/login', (req, res, next) => {
   const email = req.body.email
   const pass = req.body.pass
