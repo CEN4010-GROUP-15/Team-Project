@@ -76,4 +76,59 @@ router.post('/create', (req, res, next) => {
           next(error);
         } 
       });
+
+    //Remove book from wishlist and into shopping cart
+    router.patch('/addtoshop', (req, res, next) => {
+        const userid = req.body.userid;
+        const bookid = req.body.bookid;
+        const name = req.body.name;
+        try {
+            mysql.query(`SELECT books FROM wishlist where user_id = ${userid} AND name = '${name}'`, (error, results) => {
+              let books = results[0].books.split(',');
+              
+              try {
+                let newBooks = '';
+                for(let i = 0; i < books.length; i++){
+                    if(books[i] != bookid){
+                        if(newBooks == ''){
+                            newBooks += `${books[i]}`
+                        }else{
+                            newBooks += `,${books[i]}`
+                        }
+                    }
+                }
+                console.log(newBooks);
+                  mysql.query(`UPDATE wishlist SET books = '${newBooks}' WHERE  user_id = ${userid} AND name = '${name}';`, (error2, results) => {
+
+                    try {
+                        mysql.query(`SELECT books FROM shopping_cart where user_id = ${userid}`, (error, results) => {
+                          let books = results[0].books;
+                          try {
+                            if(books == ''){
+                                books += `${bookid}`
+                            }else{
+                                books += `,${bookid}`
+                            }
+                              mysql.query(`UPDATE shopping_cart SET books = '${books}' WHERE  user_id = '${userid}';`, (error2, results) => {
+                                res.json(results);
+                              });
+                            } catch (error2) {
+                              next(error2);
+                            }
+                        });
+                      } catch (error) {
+                        next(error);
+                      } 
+
+                  });
+                } catch (error2) {
+                  next(error2);
+                }
+                
+            });
+          } catch (error) {
+            next(error);
+          } 
+        });
+    
 module.exports = router;
