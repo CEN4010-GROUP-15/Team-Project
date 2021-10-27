@@ -51,9 +51,10 @@ router.get('/', (req, res, next) => {
 
   //Retrieve X items starting at index X
   router.get('/:parameter', (req, res, next) => {
-    let parameter = req.params.parameter
+    let parameter = req.params.parameter;
+    let offset = parameter - 1;
     try {
-      mysql.query(`SELECT * FROM book limit ${parameter} OFFSET ${parameter};`, (error, results) => {
+      mysql.query(`SELECT * FROM book limit ${parameter} OFFSET ${offset};`, (error, results) => {
         res.json(results);
       });
     } catch (error) {

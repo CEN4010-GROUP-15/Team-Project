@@ -28,5 +28,25 @@ router.post('/create', (req, res, next) => {
     }
   });
 
+//Retrieve the list of books in shopping cart
+router.get('/books', (req, res, next) => {
+    const user = req.body.user;
+    
+    try {
+      mysql.query(`SELECT books FROM shopping_cart where user_id = ${user}`, (error, results) => {
+        let books = results[0].books;
+        try {
+            mysql.query(`SELECT * FROM book WHERE book_id IN (${books})`, (error2, results2) => {
+                console.log(results2);
+              res.json(results2);
+            });
+          } catch (error2) {
+            next(error2);
+          }
+      });
+    } catch (error) {
+      next(error);
+    } 
+  });
 
 module.exports = router;
