@@ -31,4 +31,27 @@ router.get('/', (req, res, next) => {
     }
   });
 
+router.get('/:id', (req, res, next) => {
+  try {
+    mysql.query(`SELECT book.book_id, book.name, AVG(review.rating) AS review
+    FROM book
+        LEFT OUTER JOIN review
+            ON review.book_id = book.book_id
+    GROUP BY book.book_id`, (error, results) => {
+      let id = req.params.id
+      let chosen = []
+
+      for(var element of results){
+        if(element.book_id == id){
+          chosen = element;
+          break
+        }
+      }
+      res.json(chosen);
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
