@@ -46,11 +46,12 @@ var ISBN = getUrlParameter('ISBN');
 
 const url = 'https://cen4010-group15.herokuapp.com/api/books/details/'+ISBN;
 
+
 fetch(url)
 .then((resp) => resp.json())
 .then(function(data) {
   let book = data;
-    var bookNameText = document.getElementById("bookName");
+    var bookNameText = document.getElementById("bookName"); 
     bookNameText.innerHTML = `${book.name}`;
 
     var bookCoverImage = document.getElementById("bookCover");
