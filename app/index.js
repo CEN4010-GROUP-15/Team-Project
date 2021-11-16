@@ -19,6 +19,7 @@ router.get('/', (req, res) => {
 router.use('/users', users);
 router.use('/books', books);
 router.use('/author', author);
+router.use('/credit-card', credit_card);
 router.use('/shopping-cart', shopping_cart);
 router.use('/review', review);
 router.use('/wishlist', wishlist);
