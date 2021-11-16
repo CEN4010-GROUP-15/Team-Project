@@ -31,6 +31,7 @@ router.get('/', (req, res, next) => {
     }
   });
 
+// route to get the average comment for games
 router.get('/:id', (req, res, next) => {
   try {
     mysql.query(`SELECT book.book_id, book.name, AVG(review.rating) AS review
