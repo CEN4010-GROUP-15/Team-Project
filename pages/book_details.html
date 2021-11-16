@@ -4,13 +4,14 @@
   <link rel="stylesheet" href="../scss/main.css"/>  
 </head>
 <body>
-    <div class="topnav">
+    <div class="topnav"> <!-- setting up classes for different attributes-->
         <label class="logo">GeekText</label>   
         <a  class="active" href="/login">Profile</a>
         <a  href="/">Home</a>
       </div>
 
   <div>
+    <!-- Setting up heading size for each attribute all <h1><h2><h3> have different styles of headings-->
     <h1 id="bookName" ></h1>
     <div id="bookCover"></div>
     <h2>About book:</h2>
@@ -24,9 +25,9 @@
   </div>
 </body>
 </html>
-
+<!-- the following line defines a variable that will be used to send datat from client to server via URL-->
 <script>
-    var getUrlParameter = function getUrlParameter(sParam) {
+      var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = window.location.search.substring(1),
         sURLVariables = sPageURL.split('&'),
         sParameterName,
