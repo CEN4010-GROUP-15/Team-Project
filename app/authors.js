@@ -14,7 +14,11 @@ router.get('/', (req, res, next) => {
       mysql.query(`SELECT *
       FROM book
       WHERE book.author_id = (SELECT author_id FROM author WHERE first_name = '${first_name}' AND last_name = '${last_name}');`, (error, results) => {
-        res.json(results);
+        if(results.length < 1){
+          res.json("Oh no!! This author is not linked to any books on our bookstore.")
+        }else{
+          res.json(results);
+        }
       });
     } catch (error) {
       next(error);
