@@ -62,6 +62,7 @@ router.get('/', (req, res, next) => {
     }
   });  
 
+  //Retrieve book details by ISBN
   router.get('/details/:isbn', (req, res, next) => {
     const { isbn } = req.params;
 
@@ -108,6 +109,8 @@ router.get('/', (req, res, next) => {
       next(error);
     }
   });
+
+  //Create a new book with details
 
   router.post('/create', (req, res, next) => {
     const isbn = req.body.isbn
