@@ -3,6 +3,7 @@ const mysql = require('../db-connection');
 
 const router = express.Router();
 
+//Get books given an author's first and last name
 router.get('/', (req, res, next) => {
     const first_name = req.query.first_name;
     const last_name = req.query.last_name;
@@ -10,9 +11,9 @@ router.get('/', (req, res, next) => {
     console.log(req.query);
 
     try {
-      mysql.query(`SELECT book.name, author.first_name, author.last_name
+      mysql.query(`SELECT *
       FROM book
-      INNER JOIN author ON book.author_id = (SELECT author_id FROM author WHERE first_name = '${first_name}' AND last_name = '${last_name}');`, (error, results) => {
+      WHERE book.author_id = (SELECT author_id FROM author WHERE first_name = '${first_name}' AND last_name = '${last_name}');`, (error, results) => {
         res.json(results);
       });
     } catch (error) {
@@ -20,6 +21,7 @@ router.get('/', (req, res, next) => {
     }
   });
 
+  //Create a new author with details
   router.post('/create', (req, res, next) => {
     const first_name = req.body.first_name
     const last_name = req.body.last_name

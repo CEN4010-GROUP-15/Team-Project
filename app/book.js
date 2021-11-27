@@ -65,10 +65,14 @@ router.get('/', (req, res, next) => {
   //Retrieve book details by ISBN
   router.get('/details/:isbn', (req, res, next) => {
     const { isbn } = req.params;
-
     try {
       mysql.query(`SELECT * FROM book where isbn = ${isbn}`, (error, results) => {
-        res.json(results[0] ?? {});
+        if(results.length < 1){
+          res.json(`We've looked everywhere for a book with ISBN ${isbn}. The ISBN does not exist within our bookstore :( Please try again!`);
+        }else{
+          res.json(results[0] ?? {});
+        }
+        
       });
     } catch (error) {
       next(error);
@@ -124,15 +128,26 @@ router.get('/', (req, res, next) => {
     const copies_sold = req.body.copies_sold
 
     try {
-      mysql.query(`INSERT INTO \`heroku_30466051e354b84\`.\`book\` (\`ISBN\`,\`name\`, \`description\`, \`price\`, \`author\`, \`genre\`, \`publisher\`, \`year_published\`, \`copies_sold\`) VALUES ('${isbn}', '${name}', '${description}', '${price}', '${author}', '${genre}', '${publisher}', '${year_published}', '${copies_sold}');`, (error, results) => {
-        res.json(results);
+      mysql.query(`SELECT * FROM book WHERE isbn = ${isbn}`, (error, results) => {
+        if(results.length > 0){
+          res.json("A book with that ISBN already exists within our database! Try again.")
+        }else{
+          try {
+            mysql.query(`INSERT INTO \`heroku_30466051e354b84\`.\`book\` (\`ISBN\`,\`name\`, \`description\`, \`price\`, \`author_id\`, \`genre\`, \`publisher\`, \`year_published\`, \`copies_sold\`) VALUES ('${isbn}', '${name}', '${description}', '${price}', '${author}', '${genre}', '${publisher}', '${year_published}', '${copies_sold}');`, (error, results) => {
+              results.status = `Success! ${name} was added to the bookstore database.`;
+              res.json(results); 
+            });
+        
+          } catch (error) {
+            next(error);
+          }
+        }
       });
-  
     } catch (error) {
       next(error);
     }
   });
-
+  
   router.get('/:ISBN', (req, res, next) => {
     const ISBN = req.params.ISBN;
     try {
