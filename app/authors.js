@@ -33,8 +33,20 @@ router.get('/', (req, res, next) => {
     const publisher = req.body.publisher
 
     try {
-      mysql.query(`INSERT INTO \`heroku_30466051e354b84\`.\`author\` (\`first_name\`, \`last_name\`, \`biography\`, \`publisher\`) VALUES ('${first_name}', '${last_name}', '${biography}', '${publisher}');`, (error, results) => {
-        res.json(results);
+      mysql.query(`SELECT * FROM author WHERE first_name = '${first_name}' AND last_name = '${last_name}';`, (error, results) => {
+        if(results.length > 0){
+          res.json("Oh no! That author already exists within our bookstore database. Why not add a different one?")
+        }else{
+          try {
+            mysql.query(`INSERT INTO \`heroku_30466051e354b84\`.\`author\` (\`first_name\`, \`last_name\`, \`biography\`, \`publisher\`) VALUES ('${first_name}', '${last_name}', '${biography}', '${publisher}');`, (error, results) => {
+              results.status = `Success! ${first_name} ${last_name} was added to the bookstore database.`
+              res.json(results);
+            });
+        
+          } catch (error) {
+            next(error);
+          }
+        }
       });
   
     } catch (error) {
