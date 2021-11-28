@@ -28,7 +28,14 @@ router.post('/create', (req, res, next) => {
                 try {
                   mysql.query(`INSERT INTO review (\`user_id\`, \`book_id\`, \`rating\`,\`comment\`) VALUES ('${userid}', '${bookid}', '${rating}', '${comment}');`, (error, results) => {
                    results.status = `Success! Your review was posted.`;
-                    res.json(results);
+                   try {
+                    mysql.query(`UPDATE heroku_30466051e354b84.BOOK SET rating = (SELECT avg(rating) FROM review where book_id = ${bookid}) WHERE (book_id = ${bookid})`, (error, average) => {
+                     
+                     res.json(results)
+                    });
+                  } catch (error) {
+                    next(error);
+                  }
                   });
               
                 } catch (error) {
@@ -78,7 +85,11 @@ router.get('/:id', (req, res, next) => {
           break
         }
       }
-      res.json(chosen);
+      if(chosen.length <= 0){
+        res.json('This book has no reviews');
+      }else{
+        res.json(chosen);
+      }
     });
   } catch (error) {
     next(error);
