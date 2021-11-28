@@ -29,7 +29,7 @@ router.get('/', (req, res, next) => {
   //Sort by copies sold
   router.get('/top10', (req, res, next) => {
     try {
-      mysql.query(`SELECT * FROM book ORDER BY copies_sold LIMIT 10;`, (error, results) => {
+      mysql.query(`SELECT * FROM book ORDER BY copies_sold DESC LIMIT 10;`, (error, results) => {
         res.json(results);
       });
     } catch (error) {
@@ -79,40 +79,40 @@ router.get('/', (req, res, next) => {
     }
   });
 
-  router.get('/import', (req, res, next) => {
+  // router.get('/import', (req, res, next) => {
 
-    try {
-      const Convert = require("../test/books");
-      const request = require('request');
-      const url = "https://api.nytimes.com/svc/books/v3/lists.json?list=hardcover-fiction&api-key=xcG1qVBzbHK91TJiaiCd86ap2RewcXw6"
+  //   try {
+  //     const Convert = require("../test/books");
+  //     const request = require('request');
+  //     const url = "https://api.nytimes.com/svc/books/v3/lists.json?list=hardcover-fiction&api-key=xcG1qVBzbHK91TJiaiCd86ap2RewcXw6"
 
-      const options = {
-        url: url,
-        method: 'GET'
-      };
+  //     const options = {
+  //       url: url,
+  //       method: 'GET'
+  //     };
 
-      request(options, (err, ress, body) => {
-        if (err) {
-            return console.log(err);
-        }
+  //     request(options, (err, ress, body) => {
+  //       if (err) {
+  //           return console.log(err);
+  //       }
 
-        const books = Convert.toBooks(body);
-        const books2 = books.results;
+  //       const books = Convert.toBooks(body);
+  //       const books2 = books.results;
 
-        console.log(books2)
+  //       console.log(books2)
 
-        // books2.forEach(element => {
-        //   let query = `INSERT INTO heroku_30466051e354b84.book (ISBN, name, description, price, author, genre, publisher, year_published, copies_sold, cover_url) VALUES ('${element.primary_isbn13}', '${element.title}', '${element.description}', '20', '${element.author}', 'Non-Fiction', '${element.publisher}', '2020', '100', 'image');`
-        //   mysql.query(query, (error, results) => {
+  //       // books2.forEach(element => {
+  //       //   let query = `INSERT INTO heroku_30466051e354b84.book (ISBN, name, description, price, author, genre, publisher, year_published, copies_sold, cover_url) VALUES ('${element.primary_isbn13}', '${element.title}', '${element.description}', '20', '${element.author}', 'Non-Fiction', '${element.publisher}', '2020', '100', 'image');`
+  //       //   mysql.query(query, (error, results) => {
             
-        //   });
-        // });   
-      });
-      res.json({'ready': 'ready'});
-    } catch (error) {
-      next(error);
-    }
-  });
+  //       //   });
+  //       // });   
+  //     });
+  //     res.json({'ready': 'ready'});
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // });
 
   //Create a new book with details
 
