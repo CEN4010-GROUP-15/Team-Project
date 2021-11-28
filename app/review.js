@@ -50,7 +50,7 @@ router.post('/create', (req, res, next) => {
 //Retrieve list of ratings
 router.get('/', (req, res, next) => {
     try {
-      mysql.query('SELECT rating,comment FROM review ORDER BY rating DESC', (error, results) => {
+      mysql.query(`SELECT review.rating, review.comment,review.date_stamp, book.name FROM review, book where book.book_id = review.book_id ORDER BY rating DESC`, (error, results) => {
         res.json(results);
       });
     } catch (error) {
@@ -61,7 +61,7 @@ router.get('/', (req, res, next) => {
 // route to get the average comment for games
 router.get('/:id', (req, res, next) => {
   try {
-    mysql.query(`SELECT book.book_id, book.name, AVG(review.rating) AS average-rating
+    mysql.query(`SELECT book.book_id, book.name, AVG(review.rating) AS average_rating
     FROM book
         LEFT OUTER JOIN review
             ON review.book_id = book.book_id
