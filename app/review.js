@@ -8,7 +8,7 @@ router.post('/create', (req, res, next) => {
     const rating = req.body.rating;
     const bookid = req.body.bookid;
     const userid = req.body.userid;
-    const comment = req.body.comment;
+    let comment = req.body.comment;
     if (rating < 1 || rating > 5) {
       res.json("pwease uwu input a rating between 1 - 5");
     }else{
@@ -22,6 +22,9 @@ router.post('/create', (req, res, next) => {
               if(results.length < 1){
                 res.json(`The user with id ${userid} does not exist`)
               }else{
+                if (comment == ""){
+                  comment = "This user left no comment uwu"
+                }
                 try {
                   mysql.query(`INSERT INTO review (\`user_id\`, \`book_id\`, \`rating\`,\`comment\`) VALUES ('${userid}', '${bookid}', '${rating}', '${comment}');`, (error, results) => {
                    results.status = `Success! Your review was posted.`;
