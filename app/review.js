@@ -9,14 +9,41 @@ router.post('/create', (req, res, next) => {
     const bookid = req.body.bookid;
     const userid = req.body.userid;
     const comment = req.body.comment;
-
+    if (rating < 1 || rating > 5) {
+      res.json("pwease uwu input a rating between 1 - 5");
+    }else{
     try {
-      mysql.query(`INSERT INTO review (\`user_id\`, \`book_id\`, \`rating\`,\`comment\`) VALUES ('${userid}', '${bookid}', '${rating}', '${comment}');`, (error, results) => {
-        res.json(results);
+      mysql.query(`SELECT * from book WHERE book_id = '${bookid}'`, (error, results) => {
+        if(results.length < 1){
+          res.json(`The book with id ${bookid} does not exist`); 
+        }else {
+          try {
+            mysql.query(`SELECT * from user  WHERE user_id = '${userid}'`, (error, results) => {
+              if(results.length < 1){
+                res.json(`The user with id ${userid} does not exist`)
+              }else{
+                try {
+                  mysql.query(`INSERT INTO review (\`user_id\`, \`book_id\`, \`rating\`,\`comment\`) VALUES ('${userid}', '${bookid}', '${rating}', '${comment}');`, (error, results) => {
+                   results.status = `Success! Your review was posted.`;
+                    res.json(results);
+                  });
+              
+                } catch (error) {
+                  next(error);
+                }
+              }
+            });
+        
+          } catch (error) {
+            next(error);
+          }
+        }
+        
       });
   
     } catch (error) {
       next(error);
+      }
     }
   });
 
@@ -34,7 +61,7 @@ router.get('/', (req, res, next) => {
 // route to get the average comment for games
 router.get('/:id', (req, res, next) => {
   try {
-    mysql.query(`SELECT book.book_id, book.name, AVG(review.rating) AS review
+    mysql.query(`SELECT book.book_id, book.name, AVG(review.rating) AS average-rating
     FROM book
         LEFT OUTER JOIN review
             ON review.book_id = book.book_id
