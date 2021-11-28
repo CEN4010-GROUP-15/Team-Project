@@ -19,7 +19,11 @@ router.get('/', (req, res, next) => {
     let genre = req.params.genre
     try {
       mysql.query(`SELECT * FROM book WHERE genre = '${genre}'`, (error, results) => {
-        res.json(results);
+        if(results.length == 0){
+          res.json({'Theres no books by that genre' : genre});
+        }else{
+          res.json(results);
+        }
       });
     } catch (error) {
       next(error);
@@ -40,6 +44,9 @@ router.get('/', (req, res, next) => {
   //Sort by rating
   router.get('/sort/rating/:rating', (req, res, next) => {
     let rating = req.params.rating
+    if(rating > 5 || rating < 1){
+      res.json({'Please input a valid rating' : '1 - 5'})
+    }else{
     try {
       mysql.query(`SELECT * FROM book WHERE rating >= ${rating} ORDER BY rating;`, (error, results) => {
         res.json(results);
@@ -47,6 +54,7 @@ router.get('/', (req, res, next) => {
     } catch (error) {
       next(error);
     }
+  }
   });  
 
   //Retrieve X items starting at index X
@@ -55,7 +63,11 @@ router.get('/', (req, res, next) => {
     let offset = parameter - 1;
     try {
       mysql.query(`SELECT * FROM book limit ${parameter} OFFSET ${offset};`, (error, results) => {
-        res.json(results);
+        if(parameter <= 0){
+          res.json({'Please input a number that is' : '1 or higher'})
+        }else{
+          res.json(results);
+        }
       });
     } catch (error) {
       next(error);
