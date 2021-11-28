@@ -208,32 +208,70 @@ router.put('/addbook', (req, res, next) => {
 router.patch('/removebook', (req, res, next) => {
     const user = req.body.user;
     const bookid = req.body.bookid;
+
     try {
-        mysql.query(`SELECT books FROM shopping_cart where user_id = ${user}`, (error, results) => {
-          let books = results[0].books.split(',');
-          
+      mysql.query(`SELECT * FROM user WHERE user_id =${user}`, (error2, results2) => {
+         if (results2.length < 1){
+           res.json("This user does not exist")
+         }
+         else{
           try {
-            let newBooks = '';
-            for(let i = 0; i < books.length; i++){
-                if(books[i] != bookid){
-                    if(newBooks == ''){
-                        newBooks += `${books[i]}`
-                    }else{
-                        newBooks += `,${books[i]}`
-                    }
+            mysql.query(`SELECT * FROM shopping_cart WHERE user_id = ${user}`, (error2, results3) => {
+             if (results3.length < 1){
+               res.json("This user does not have a shopping cart")
+             
+             }  
+             else{
+              try {
+                mysql.query(`SELECT * FROM book WHERE book_id = ${bookid}`, (error2, results4) => {                  
+                if (results4.length < 1){
+                  res.json("This book does not exist")
+                
                 }
-            }
-              mysql.query(`UPDATE shopping_cart SET books = '${newBooks}' WHERE  user_id = '${user}';`, (error2, results) => {
-                  console.log(results);
-                res.json(results);
-              });
-            } catch (error2) {
-              next(error2);
-            }
-        });
-      } catch (error) {
-        next(error);
-      } 
+                else{
+                  try {
+                    mysql.query(`SELECT books FROM shopping_cart where user_id = ${user}`, (error, results) => {
+                      let books = results[0].books.split(',');
+                      
+                      try {
+                        let newBooks = '';
+                        for(let i = 0; i < books.length; i++){
+                            if(books[i] != bookid){
+                                if(newBooks == ''){
+                                    newBooks += `${books[i]}`
+                                }else{
+                                    newBooks += `,${books[i]}`
+                                }
+                            }
+                        }
+                          mysql.query(`UPDATE shopping_cart SET books = '${newBooks}' WHERE  user_id = '${user}';`, (error2, results5) => {
+                              results5.status = `Success! Book was removed from shopping cart.`;
+                            res.json(results5);
+                          });
+                        } catch (error2) {
+                          next(error2);
+                        }
+                    });
+                  } catch (error) {
+                    next(error);
+                  } 
+                }
+                });
+              } catch (error2) {
+                next(error2);
+              }
+             } 
+              
+            });
+          } catch (error2) {
+            next(error2);
+          }
+         }
+      });
+    } catch (error2) {
+      next(error2);
+    }
+  
     });
 
 
