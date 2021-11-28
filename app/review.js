@@ -88,7 +88,9 @@ router.get('/:id', (req, res, next) => {
       if(chosen.length <= 0){
         res.json('This book has no reviews');
       }else{
-        res.json(chosen);
+        if(chosen.average_rating == null){
+        chosen.average_rating = "This book has no average rating because no reviews exists uwu." 
+        } res.json(chosen);
       }
     });
   } catch (error) {
